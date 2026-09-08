@@ -93,13 +93,13 @@ class LogUITests(unittest.TestCase):
         self.name(); self.app.on_generate()
         text=self.text()
         self.assertIn('Generating ATest (Actor)',text)
-        self.assertIn('Created: Source/Game/Public/ATest.h',text)
-        self.assertIn('Created: Source/Game/Private/ATest.cpp',text)
+        self.assertIn('Created: Source/Game/Public/Test.h',text)
+        self.assertIn('Created: Source/Game/Private/Test.cpp',text)
         self.assertIn('Generated ATest: 2 file(s)',text)
         self.assertFalse(self.app.log_open)
         self.app.toggle_log()
         self.assertEqual(text,self.rendered())
-        self.assertTrue((self.up.parent/'Source/Game/Public/ATest.h').exists())
+        self.assertTrue((self.up.parent/'Source/Game/Public/Test.h').exists())
 
     def test_05_typing_and_preview_do_not_spam_history(self):
         for value in ('T','Te','Test','Bad Name','Test'):
@@ -126,7 +126,7 @@ class LogUITests(unittest.TestCase):
         self.app.set_language('ja')
         text=self.rendered()
         self.assertIn('[成功] [ソース]',text)
-        self.assertIn('作成: Source/Game/Public/ATest.h',text)
+        self.assertIn('作成: Source/Game/Public/Test.h',text)
         self.assertIn('Project files updated.',text)
         self.assertIn('▾ ログ',self.app.log_toggle.cget('text'))
         self.assertEqual(old,self.app.geometry())
@@ -252,11 +252,11 @@ class LogUITests(unittest.TestCase):
         self.ask.return_value=True
         self.app.options['with_tick']=True; self.app.on_generate()
         self.assertIn('Backup:',self.text())
-        self.assertIn('Updated: Source/Game/Public/ATest.h',self.text())
+        self.assertIn('Updated: Source/Game/Public/Test.h',self.text())
         self.app.on_undo()
-        self.assertIn('Restored: Source/Game/Public/ATest.h',self.text())
+        self.assertIn('Restored: Source/Game/Public/Test.h',self.text())
         self.assertIn('Action undone.',self.text())
-        self.assertNotIn('virtual void Tick', (self.up.parent/'Source/Game/Public/ATest.h').read_text())
+        self.assertNotIn('virtual void Tick', (self.up.parent/'Source/Game/Public/Test.h').read_text())
 
     def test_19_cancelled_overwrite_does_not_claim_success(self):
         self.name(); self.app.on_generate(); self.app.activity.clear()
@@ -264,7 +264,7 @@ class LogUITests(unittest.TestCase):
         self.app.on_generate()
         self.assertIn('Generation cancelled',self.text())
         self.assertNotIn('[Success]',self.text())
-        self.assertNotIn('virtual void Tick',(self.up.parent/'Source/Game/Public/ATest.h').read_text())
+        self.assertNotIn('virtual void Tick',(self.up.parent/'Source/Game/Public/Test.h').read_text())
 
     def test_20_clear_during_update_allows_future_lines(self):
         with patch.object(platform_tools,'project_command',return_value=self.command('import time; print("erase-me"); time.sleep(.5); print("keep-me")')):
@@ -298,10 +298,10 @@ class LogUITests(unittest.TestCase):
     def test_23_append_logs_are_distinct_from_replace(self):
         self.name(); self.app.on_generate(); self.app.activity.clear()
         self.ask.return_value=True
-        self.app.var_template.set('Struct'); self.app.options['append_to']='ATest.h'; self.name('Data')
+        self.app.var_template.set('Struct'); self.app.options['append_to']='Test.h'; self.name('Data')
         self.app.on_generate()
-        self.assertIn('Appended: Source/Game/Public/ATest.h',self.text())
-        self.assertIn('FData',(self.up.parent/'Source/Game/Public/ATest.h').read_text())
+        self.assertIn('Appended: Source/Game/Public/Test.h',self.text())
+        self.assertIn('FData',(self.up.parent/'Source/Game/Public/Test.h').read_text())
 
     def test_24_no_duplicate_generation_logs(self):
         self.name(); self.app.on_generate()

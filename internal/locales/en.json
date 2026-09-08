@@ -66,7 +66,7 @@
   "The Unreal Engine project to generate files in. Your selection is saved for the next launch.": "The Unreal Engine project to generate files in. Your selection is saved for the next launch.",
   "The destination module. Modules inside plugins are also listed here.": "The destination module. Modules inside plugins are also listed here.",
   "The C++ type to generate. Type a name to filter the list.": "The C++ type to generate. Type a name to filter the list.",
-  "Enter Test to generate ATest for Actor or UTest for UObject. Prefixes are added automatically without changing your input. An existing matching prefix is not added twice. The preview shows the final name.": "Enter Test to generate ATest for Actor or UTest for UObject. Prefixes are added automatically without changing your input. An existing matching prefix is not added twice. The preview shows the final name.",
+  "Enter PlayerBase or APlayerBase for Actor. The class is APlayerBase; the files are PlayerBase.h and PlayerBase.cpp. Type prefixes are automatic and omitted from filenames. PlainClass names are unchanged.": "Enter PlayerBase or APlayerBase for Actor. The class is APlayerBase; the files are PlayerBase.h and PlayerBase.cpp. Type prefixes are automatic and omitted from filenames. PlainClass names are unchanged.",
   "A relative folder within the module. Leave blank for the root. Use + to add an empty folder, or enter a new folder to create it with the generated files.": "A relative folder within the module. Leave blank for the root. Use + to add an empty folder, or enter a new folder to create it with the generated files.",
   "Public / Private: .h in Public, .cpp in Private.\nSame Folder: keep .h and .cpp together under the module root.\nPrivate Only / Public Only: place both files on the selected side.": "Public / Private: .h in Public, .cpp in Private.\nSame Folder: keep .h and .cpp together under the module root.\nPrivate Only / Public Only: place both files on the selected side.",
   "Add a module or plugin.": "Add a module or plugin.",
@@ -210,5 +210,7 @@
   "Warning": "Warning",
   "Working directory: {path}": "Working directory: {path}",
   "▸ Log": "▸ Log",
-  "▾ Log": "▾ Log"
+  "▾ Log": "▾ Log",
+  "A prefixed file for {name} already exists: {path}. Rename it and update its includes before generating again.": "A prefixed file for {name} already exists: {path}. Rename it and update its includes before generating again.",
+  "File names must contain 1–180 letters, digits or underscores.": "File names must contain 1–180 letters, digits or underscores."
 }

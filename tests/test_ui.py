@@ -74,7 +74,7 @@ class UITests(unittest.TestCase):
         self.assertEqual('AShip', self.app.plan.name)
         self.assertIn('class GAME_API AShip', self.app.views['header'].content)
         self.assertTrue(self.app.generate_button.instate(['!disabled']))
-        self.assertFalse((self.up.parent / 'Source/Game/Public/AShip.h').exists())
+        self.assertFalse((self.up.parent / 'Source/Game/Public/Ship.h').exists())
 
     def test_05_invalid_name_clears_stale_preview(self):
         self.name()
@@ -198,7 +198,7 @@ class UITests(unittest.TestCase):
         self.app.on_generate()
         self.assertIsNotNone(self.app.last_receipt.backup)
         self.app.on_undo()
-        self.assertEqual(original, (self.up.parent / 'Source/Game/Public/AShip.h').read_bytes())
+        self.assertEqual(original, (self.up.parent / 'Source/Game/Public/Ship.h').read_bytes())
 
     def test_20_undo_refuses_external_edit(self):
         self.name(); self.app.on_generate()
@@ -384,7 +384,7 @@ class UITests(unittest.TestCase):
         self.app.on_generate()
         self.assertEqual('Test', self.app.var_name.get())
         self.assertEqual('ATest', self.app.last_receipt.plan.name)
-        self.assertTrue((self.up.parent / 'Source/Game/Public/ATest.h').exists())
+        self.assertTrue((self.up.parent / 'Source/Game/Public/Test.h').exists())
         self.assertEqual([], self.errors)
 
     def test_42_type_switch_only_recomputes_output(self):

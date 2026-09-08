@@ -48,7 +48,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(self.up, m.load_project(self.up).file)
 
     def test_05_ancestor_detection(self):
-        nested = self.root / 'Tools/CppSourceGenerator/internal'
+        nested = self.root / 'Tools/UnrealSourceGenerator/internal'
         nested.mkdir(parents=True)
         self.assertEqual(self.up, m.find_project(nested))
 
@@ -124,8 +124,8 @@ class ModelTests(unittest.TestCase):
         target = next(t for t in self.project.targets if t.name == 'Flat')
         p = m.build_plan(self.project, self.req(target=target))
         m.commit(p)
-        self.assertTrue((target.folder / 'Public/ATestActor.h').is_file())
-        self.assertTrue((target.folder / 'Private/ATestActor.cpp').is_file())
+        self.assertTrue((target.folder / 'Public/TestActor.h').is_file())
+        self.assertTrue((target.folder / 'Private/TestActor.cpp').is_file())
 
     def test_15_auto_header_only_enum_struct_interface(self):
         for t in ('Enum', 'PlainEnum', 'Struct', 'PlainStruct', 'Interface'):
@@ -265,7 +265,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(before, snapshot(self.root))
 
     def test_33_case_insensitive_header_collision(self):
-        (self.target.folder / 'Public/atestactor.h').write_text('// original')
+        (self.target.folder / 'Public/testactor.h').write_text('// original')
         with self.assertRaises(m.ValidationError):
             m.build_plan(self.project, self.req())
 
@@ -275,13 +275,13 @@ class ModelTests(unittest.TestCase):
 
     def test_35_append_reflected_with_required_include(self):
         m.commit(m.build_plan(self.project, self.req(name='BaseActor')))
-        p = m.build_plan(self.project, self.req(template='Struct', name='Row', options={'append_to': 'ABaseActor.h', 'with_struct_datatable': True}))
+        p = m.build_plan(self.project, self.req(template='Struct', name='Row', options={'append_to': 'BaseActor.h', 'with_struct_datatable': True}))
         h = p.changes[0].content
         self.assertIn('class GAME_API ABaseActor', h)
         self.assertIn('struct GAME_API FRow : public FTableRowBase', h)
         self.assertIn('#include "Engine/DataTable.h"', h)
         self.assertEqual(1, h.count('.generated.h'))
-        self.assertLess(h.index('Engine/DataTable.h'), h.index('ABaseActor.generated.h'))
+        self.assertLess(h.index('Engine/DataTable.h'), h.index('BaseActor.generated.h'))
         m.commit(p, allow_existing=True)
         self.assertEqual(p.changes[0].after, p.changes[0].path.read_bytes())
 
@@ -289,12 +289,12 @@ class ModelTests(unittest.TestCase):
         m.commit(m.build_plan(self.project, self.req(template='PlainClass', name='Shared', options={'header_only': True})))
         p = m.build_plan(self.project, self.req(template='Enum', name='Mode', options={'append_to': 'Shared.h'}))
         self.assertIn('Shared.generated.h', p.changes[0].content)
-        self.assertNotIn('EMode.generated.h', p.changes[0].content)
+        self.assertNotIn('Mode.generated.h', p.changes[0].content)
 
     def test_37_append_duplicate_blocked(self):
         m.commit(m.build_plan(self.project, self.req(name='BaseActor')))
         with self.assertRaises(m.ValidationError):
-            m.build_plan(self.project, self.req(name='BaseActor', options={'append_to': 'ABaseActor.h'}))
+            m.build_plan(self.project, self.req(name='BaseActor', options={'append_to': 'BaseActor.h'}))
 
     def test_38_append_guard_stays_inside(self):
         h = self.target.folder / 'Public/Shared.h'
@@ -305,13 +305,13 @@ class ModelTests(unittest.TestCase):
 
     def test_39_append_cpp_uses_existing_header(self):
         m.commit(m.build_plan(self.project, self.req(template='PlainStruct', name='Shared')))
-        p = m.build_plan(self.project, self.req(template='Actor', name='Extra', options={'append_to': 'FShared.h'}))
-        self.assertEqual('FShared.cpp', p.changes[1].path.name)
-        self.assertTrue(p.changes[1].content.startswith('#include "FShared.h"'))
+        p = m.build_plan(self.project, self.req(template='Actor', name='Extra', options={'append_to': 'Shared.h'}))
+        self.assertEqual('Shared.cpp', p.changes[1].path.name)
+        self.assertTrue(p.changes[1].content.startswith('#include "Shared.h"'))
 
     def test_40_append_namespace_no_duplicate_includes(self):
         m.commit(m.build_plan(self.project, self.req(template='PlainEnum', name='Base')))
-        p = m.build_plan(self.project, self.req(template='PlainClass', name='Extra', options={'namespace':'Tools', 'append_to':'EBase.h', 'extra_includes':'Extra.h'}))
+        p = m.build_plan(self.project, self.req(template='PlainClass', name='Extra', options={'namespace':'Tools', 'append_to':'Base.h', 'extra_includes':'Extra.h'}))
         text = p.changes[0].content
         self.assertEqual(1, text.count('#include "Extra.h"'))
         self.assertLess(text.index('Extra.h'), text.index('namespace Tools'))

@@ -66,7 +66,7 @@
   "The Unreal Engine project to generate files in. Your selection is saved for the next launch.": "生成先の Unreal Engine プロジェクト。選択内容は次回も使用します。",
   "The destination module. Modules inside plugins are also listed here.": "生成先のモジュール。プラグイン内のモジュールもここから選べます。",
   "The C++ type to generate. Type a name to filter the list.": "生成する C++ の型。型名を入力して絞り込むこともできます。",
-  "Enter Test to generate ATest for Actor or UTest for UObject. Prefixes are added automatically without changing your input. An existing matching prefix is not added twice. The preview shows the final name.": "Test と入力すると Actor は ATest、UObject は UTest になります。接頭辞は自動です。入力欄は書き換えず、生成名はプレビューに表示します。正しい接頭辞を入力済みなら重ねません。",
+  "Enter PlayerBase or APlayerBase for Actor. The class is APlayerBase; the files are PlayerBase.h and PlayerBase.cpp. Type prefixes are automatic and omitted from filenames. PlainClass names are unchanged.": "Actor で PlayerBase または APlayerBase と入力すると、クラスは APlayerBase、ファイルは PlayerBase.h と PlayerBase.cpp になります。型の接頭辞は自動で付き、ファイル名には付きません。PlainClass は入力どおりです。",
   "A relative folder within the module. Leave blank for the root. Use + to add an empty folder, or enter a new folder to create it with the generated files.": "モジュール内の相対フォルダ。空欄なら直下。＋から空フォルダも追加できます。直接入力した新しいフォルダは生成時に作ります。",
   "Public / Private: .h in Public, .cpp in Private.\nSame Folder: keep .h and .cpp together under the module root.\nPrivate Only / Public Only: place both files on the selected side.": "Public / Private: .h は Public、.cpp は Private。\n同じフォルダ: モジュール直下で .h と .cpp を同居。\nPrivate のみ / Public のみ: 両方を指定側に配置。",
   "Add a module or plugin.": "モジュールまたはプラグインを追加します。",
@@ -210,5 +210,7 @@
   "Warning": "警告",
   "Working directory: {path}": "作業フォルダ: {path}",
   "▸ Log": "▸ ログ",
-  "▾ Log": "▾ ログ"
+  "▾ Log": "▾ ログ",
+  "A prefixed file for {name} already exists: {path}. Rename it and update its includes before generating again.": "{name} の接頭辞付きファイルが既にあります: {path}。再生成する前に、ファイル名と include を変更してください。",
+  "File names must contain 1–180 letters, digits or underscores.": "ファイル名は1〜180文字の英数字と _ で指定してください。"
 }

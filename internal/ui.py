@@ -16,6 +16,7 @@ import weakref
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, font
 
+from .identity import APP_NAME
 from . import model, templates, theme, platform_tools, preferences
 from .activity import ActivityLog, format_entry
 from .i18n import Message, Translator, LANGUAGES, normalize_language, msg
@@ -349,7 +350,7 @@ class App(tk.Tk):
     def __init__(self, project_path: Path | None = None, state_path: Path | None = None):
         super().__init__()
         self.withdraw()
-        self.title('C++ Source Generator')
+        self.title(APP_NAME)
         theme.apply(self)
         self.scale = max(1.0, round(self.winfo_fpixels('1i') / 96.0, 2))
         self.state_path = state_path or settings_path()
@@ -484,7 +485,7 @@ class App(tk.Tk):
         rows = (
             (msg('Module'), self.var_target, 'target', msg('The destination module. Modules inside plugins are also listed here.')),
             (msg('Type'), self.var_template, 'template', msg('The C++ type to generate. Type a name to filter the list.')),
-            (msg('Name'), self.var_name, 'name', msg('Enter Test to generate ATest for Actor or UTest for UObject. Prefixes are added automatically without changing your input. An existing matching prefix is not added twice. The preview shows the final name.')),
+            (msg('Name'), self.var_name, 'name', msg('Enter PlayerBase or APlayerBase for Actor. The class is APlayerBase; the files are PlayerBase.h and PlayerBase.cpp. Type prefixes are automatic and omitted from filenames. PlainClass names are unchanged.')),
             (msg('Folder'), self.var_folder, 'folder', msg('A relative folder within the module. Leave blank for the root. Use + to add an empty folder, or enter a new folder to create it with the generated files.')),
             (msg('Layout'), self.var_layout, 'layout', msg('Public / Private: .h in Public, .cpp in Private.\nSame Folder: keep .h and .cpp together under the module root.\nPrivate Only / Public Only: place both files on the selected side.')),
         )
@@ -707,7 +708,7 @@ class App(tk.Tk):
         try:
             self.project = project
             self.var_project.set(project.file.name)
-            self.title(f'C++ Source Generator — {project.file.stem}')
+            self.title(f'{APP_NAME} — {project.file.stem}')
             configure_widget(self.project_button, text=msg('Change…'))
             self.targets = {}
             for t in project.targets:
@@ -1010,7 +1011,7 @@ class App(tk.Tk):
                 self._job_queue.put((True, platform_tools.update_project(project, on_log=on_log, cancel=cancel)))
             except Exception as e:
                 self._job_queue.put((False, e))
-        self._worker = threading.Thread(target=work, name='cppgen-project-update', daemon=True)
+        self._worker = threading.Thread(target=work, name='unrealsourcegen-project-update', daemon=True)
         self._worker.start()
         self._job_timer = self.after(100, self.poll_update)
 

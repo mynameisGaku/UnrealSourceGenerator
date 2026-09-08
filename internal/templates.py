@@ -96,6 +96,7 @@ def normalize_namespace(s) -> str:
 
 def build_header_content(req: dict, info: dict, api_macro: str) -> str:
     cls = sanitize_class_name(req["class_name"])
+    header_stem = req["header_stem"]
     api = f"{api_macro} " if req.get("with_api") and api_macro else ""
     bp_type = "BlueprintType, " if req.get("blueprint_type") else ""
     extra_includes = (req.get("extra_includes") or "").strip()
@@ -114,7 +115,7 @@ def build_header_content(req: dict, info: dict, api_macro: str) -> str:
         base = f'''#pragma once
 
 #include "CoreMinimal.h"
-#include "{enum_name}.generated.h"
+#include "{header_stem}.generated.h"
 
 UENUM(BlueprintType)
 enum class {enum_name} : uint8
@@ -176,7 +177,7 @@ namespace {enum_name}_Helper
         out = f'''#pragma once
 
 #include "CoreMinimal.h"
-{dt_include}#include "{struct_name}.generated.h"
+{dt_include}#include "{header_stem}.generated.h"
 
 '''
         out += f'''USTRUCT(BlueprintType)
@@ -291,12 +292,12 @@ private:
         else:
             uname = "U" + cls
             iname = "I" + cls
-        # generated.h はファイル名 (cls) に合わせる
+        # generated.h follows the actual header filename, not the C++ type name.
         return f'''#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "{cls}.generated.h"
+#include "{header_stem}.generated.h"
 
 UINTERFACE(MinimalAPI, BlueprintType)
 class {uname} : public UInterface
@@ -324,7 +325,7 @@ public:
     if extra_includes:
         for inc in [s.strip() for s in extra_includes.split(",") if s.strip()]:
             out += f'#include "{inc}"\n' if "#include" not in inc else inc + "\n"
-    out += f'#include "{cls}.generated.h"\n\n'
+    out += f'#include "{header_stem}.generated.h"\n\n'
 
     # UCLASS 指定子
     uclass_spec = ""

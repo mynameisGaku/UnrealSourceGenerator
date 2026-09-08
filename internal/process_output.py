@@ -172,7 +172,7 @@ def stream_process(command: list[str], cwd: Path, emit: Callable[[str], None], *
         tail.append(line[-4096:])
         emit(line)
     lines = OutputLines(on_line, encodings)
-    reader = threading.Thread(target=read, name='cppgen-output', daemon=True)
+    reader = threading.Thread(target=read, name='unrealsourcegen-output', daemon=True)
     reader.start()
     stopped, stop_at, eof = '', 0.0, False
     try:

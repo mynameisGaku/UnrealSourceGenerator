@@ -45,9 +45,9 @@ class CompileTests(unittest.TestCase):
         self.emit('PlainEnum', 'Mode', namespace='Tools')
         self.compile('''#include "Split.h"
 #include "Inline.h"
-#include "FData.h"
-#include "EMode.h"
-#include "EMode.h"
+#include "Data.h"
+#include "Mode.h"
+#include "Mode.h"
 int main() { Tools::Split A; Tools::Inline B; Tools::FData D; FOutside E;
     return D.Value + E.Value + static_cast<int>(Tools::EMode::None); }
 ''')

@@ -10,14 +10,14 @@ sys.dont_write_bytecode = True
 def fail(message):
     if sys.platform == 'win32':
         import ctypes
-        ctypes.windll.user32.MessageBoxW(None, message, 'C++ Source Generator', 0x10)
+        ctypes.windll.user32.MessageBoxW(None, message, 'UnrealSourceGenerator', 0x10)
     else:
         try:
             import tkinter as tk
             from tkinter import messagebox
             root = tk.Tk()
             root.withdraw()
-            messagebox.showerror('C++ Source Generator', message, parent=root)
+            messagebox.showerror('UnrealSourceGenerator', message, parent=root)
             root.destroy()
         except Exception:
             pass
@@ -42,7 +42,7 @@ def start():
         from internal.ui import main
         main()
     except Exception as exc:
-        directory = state_path.parent if state_path else Path(os.environ.get('APPDATA', str(Path.home()))) / 'CppSourceGenerator'
+        directory = state_path.parent if state_path else Path(os.environ.get('APPDATA', str(Path.home()))) / 'UnrealSourceGenerator'
         log = directory / 'startup-error.log'
         suffix = ''
         try:

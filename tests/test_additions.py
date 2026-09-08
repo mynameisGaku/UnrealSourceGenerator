@@ -38,15 +38,15 @@ class AdditionModelTests(unittest.TestCase):
         plan = m.build_plan(self.project, req)
         header, cpp = plan.changes
         self.assertEqual('ATest', plan.name)
-        self.assertEqual('ATest.h', header.path.name)
-        self.assertEqual('ATest.cpp', cpp.path.name)
+        self.assertEqual('Test.h', header.path.name)
+        self.assertEqual('Test.cpp', cpp.path.name)
         self.assertIn('class GAME_API ATest : public AActor', header.content)
         self.assertIn('ATest();', header.content)
-        self.assertIn('#include "ATest.generated.h"', header.content)
-        self.assertIn('#include "Actors/Nested/ATest.h"', cpp.content)
+        self.assertIn('#include "Test.generated.h"', header.content)
+        self.assertIn('#include "Actors/Nested/Test.h"', cpp.content)
         self.assertIn('ATest::ATest()', cpp.content)
         before = snapshot(self.root)
-        self.assertNotIn('Source/Game/Public/Actors/Nested/ATest.h', before)
+        self.assertNotIn('Source/Game/Public/Actors/Nested/Test.h', before)
         receipt = m.commit(plan)
         for change in plan.changes:
             self.assertEqual(change.after, change.path.read_bytes())
@@ -95,10 +95,10 @@ class AdditionModelTests(unittest.TestCase):
                 plan = m.build_plan(self.project, self.req(template='Interface', name=name))
                 self.assertEqual('ITest', plan.name)
                 self.assertEqual(1, len(plan.changes))
-                self.assertEqual('ITest.h', plan.changes[0].path.name)
+                self.assertEqual('Test.h', plan.changes[0].path.name)
                 self.assertIn('class UTest : public UInterface', plan.changes[0].content)
                 self.assertIn('class GAME_API ITest', plan.changes[0].content)
-                self.assertIn('"ITest.generated.h"', plan.changes[0].content)
+                self.assertIn('"Test.generated.h"', plan.changes[0].content)
 
     def test_base_and_full_names_share_collision_detection(self):
         plan = m.build_plan(self.project, self.req())
@@ -112,13 +112,13 @@ class AdditionModelTests(unittest.TestCase):
 
     def test_append_uses_resolved_name_and_guards_duplicates(self):
         m.commit(m.build_plan(self.project, self.req(name='Shared')))
-        req = self.req(options={'append_to': 'AShared.h'})
+        req = self.req(options={'append_to': 'Shared.h'})
         plan = m.build_plan(self.project, req)
         m.commit(plan, allow_existing=True)
-        header = self.target.folder / 'Public/AShared.h'
+        header = self.target.folder / 'Public/Shared.h'
         self.assertIn('class GAME_API ATest', header.read_text())
         self.assertEqual(1, header.read_text().count('.generated.h'))
-        self.assertFalse((header.parent / 'ATest.h').exists())
+        self.assertFalse((header.parent / 'Test.h').exists())
         with self.assertRaises(m.ValidationError):
             m.build_plan(self.project, replace(req, name='ATest'))
 
@@ -296,7 +296,7 @@ class AdditionModelTests(unittest.TestCase):
         plan = m.build_plan(project, m.Request(target, 'Actor', 'Test', folder='Game/Actors'))
         m.commit(plan)
         self.assertIn('class FLIGHTTOOLS_API ATest', plan.changes[0].path.read_text())
-        self.assertTrue((target.folder / 'Private/Game/Actors/ATest.cpp').is_file())
+        self.assertTrue((target.folder / 'Private/Game/Actors/Test.cpp').is_file())
         self.assertEqual({'FlightTools', 'FlightEditor'}, set(m._module_types(m.read_json(target.descriptor))))
 
     def test_scaffold_snapshot_is_the_same_bytes_that_were_parsed(self):

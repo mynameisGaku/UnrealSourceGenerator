@@ -15,6 +15,7 @@ import uuid
 from datetime import datetime
 from typing import Iterable
 
+from .identity import APP_NAME
 from . import templates as tpl
 from .i18n import Message, msg
 
@@ -216,6 +217,26 @@ def type_name(value: str, template: str) -> str:
         n = prefix + n
     # Validate the final name as well: adding a prefix must not bypass limits.
     return identifier(n, msg('Name'), 'name')
+
+
+def file_stem(value: str, template: str) -> str:
+    """Return a filename base, removing only the selected type's resolved prefix.
+
+    Resolve from the original input, not a second normalization of the C++ name.
+    PlainClass has no automatic prefix. Digits and leading underscores are
+    legal in filenames (A2D -> 2D.h); Windows device names are not.
+    """
+    name = type_name(value, template)
+    return _file_stem(name[len(required_prefix(template)):], 'name')
+
+
+def _file_stem(stem: str, field: str) -> str:
+    # A filename is not a C++ identifier: e.g. 2D.h and _Test.h are valid.
+    if not re.fullmatch(r'[A-Za-z0-9_]{1,180}', stem):
+        raise ValidationError(msg('File names must contain 1–180 letters, digits or underscores.'), field)
+    if stem.upper() in RESERVED:
+        raise ValidationError(msg('{name} is a reserved Windows name.', name=stem), field)
+    return stem
 
 
 def normalized_folder(value: str) -> str:
@@ -473,8 +494,9 @@ def build_plan(project: Project, req: Request) -> Plan:
     if append:
         if Path(append).name != append or '\\' in append or not append.endswith('.h'):
             raise ValidationError(msg('Select a .h file in the same folder as the append target.'), 'options')
-        identifier(append[:-2], msg('Append Target'), 'options')
-    header = contained(hdir / (append or f'{name}.h'), req.target.folder)
+        _file_stem(append[:-2], 'options')
+    stem = append[:-2] if append else file_stem(req.name, req.template)
+    header = contained(hdir / f'{stem}.h', req.target.folder)
     cpp = contained(cdir / f'{header.stem}.cpp', req.target.folder)
     old_h, old_c = _read_bytes(header), _read_bytes(cpp)
     if append and old_h is None:
@@ -482,15 +504,25 @@ def build_plan(project: Project, req: Request) -> Plan:
     # Same filename elsewhere in the same module is almost always a layout mistake.
     # Do not silently delete or relocate someone else's implementation.
     if not append:
+        # Do not generate a second definition next to files made by older releases.
+        # Existing files are never automatically renamed or removed.
+        legacy = {name.casefold()} if name != stem else set()
+        if req.template == 'Interface':
+            legacy.add(('U' + name[1:]).casefold())
         for p in _walk(req.target.folder, '.h'):
             if p.name.casefold() == header.name.casefold() and p != header:
                 raise ValidationError(msg('A header with this name already exists: {path}', path=p.relative_to(root)), 'name')
+            if p != header and p.stem.casefold() in legacy:
+                raise ValidationError(msg('A prefixed file for {name} already exists: {path}. Rename it and update its includes before generating again.', name=name, path=p.relative_to(root)), 'name')
         for p in _walk(req.target.folder, '.cpp'):
             if p.name.casefold() == cpp.name.casefold() and (p != cpp or header_only):
                 raise ValidationError(msg('Cannot change the layout while the existing .cpp remains: {path}', path=p.relative_to(root)), 'layout')
+            if p != cpp and p.stem.casefold() in legacy:
+                raise ValidationError(msg('A prefixed file for {name} already exists: {path}. Rename it and update its includes before generating again.', name=name, path=p.relative_to(root)), 'name')
     # Build the same exact code for preview and commit.
     extra = _extra_includes(str(opt.get('extra_includes') or ''))
-    values = {**opt, 'class_name': name, 'template': req.template, 'extra_includes': ''}
+    values = {**opt, 'class_name': name, 'template': req.template,
+              'header_stem': header.stem, 'extra_includes': ''}
     info = tpl.TEMPLATES[req.template]
     htext = tpl.build_header_content(values, info, req.target.name.upper() + '_API')
     htext = _insert_includes(htext, extra)
@@ -553,7 +585,7 @@ def _mkdir(path: Path, made: list[Path]) -> None:
 
 
 def _replace(path: Path, data: bytes) -> None:
-    fd, tmp = tempfile.mkstemp(prefix='.cppgen-', dir=path.parent)
+    fd, tmp = tempfile.mkstemp(prefix='.unrealsourcegen-', dir=path.parent)
     try:
         with os.fdopen(fd, 'wb') as stream:
             stream.write(data)
@@ -582,7 +614,7 @@ def commit(plan: Plan, *, allow_existing: bool = False) -> Receipt:
     made: list[Path] = []
     backup = None
     if plan.modified:
-        backup = plan.root / 'Saved' / 'CppSourceGenerator' / 'Backups' / (datetime.now().strftime('%Y%m%d-%H%M%S-') + uuid.uuid4().hex[:8])
+        backup = plan.root / 'Saved' / APP_NAME / 'Backups' / (datetime.now().strftime('%Y%m%d-%H%M%S-') + uuid.uuid4().hex[:8])
         contained(backup, plan.root)
         backup.mkdir(parents=True)
         manifest = []

@@ -77,12 +77,12 @@ class MessageTests(unittest.TestCase):
         self.assertEqual('name', error.field)
 
     def test_nested_transaction_error_translates_at_display_time(self):
-        inner = model.ValidationError(i18n.msg('{file} changed during generation.', file='ATest.h'))
+        inner = model.ValidationError(i18n.msg('{file} changed during generation.', file='Test.h'))
         outer = model.ValidationError(i18n.msg('Writing was stopped.\n{error}{detail}', error=inner, detail=''))
-        self.assertIn('ATest.h changed during generation.', str(outer))
+        self.assertIn('Test.h changed during generation.', str(outer))
         jp = i18n.Translator('ja').render(outer)
         self.assertIn('書き込みを中断しました。', jp)
-        self.assertIn('ATest.h が生成中に変更されました。', jp)
+        self.assertIn('Test.h が生成中に変更されました。', jp)
         self.assertNotIn('Writing', jp)
 
     def test_user_strings_are_not_translation_keys(self):
@@ -306,7 +306,7 @@ class LocalizationUITests(unittest.TestCase):
             self.app.on_generate()
             commit.assert_not_called()
         self.app.tools.invoke(self.app.tr('Undo Last Action'))
-        self.assertFalse((self.up.parent / 'Source/Game/Public/ATest.h').exists())
+        self.assertFalse((self.up.parent / 'Source/Game/Public/Test.h').exists())
         self.assertEqual('操作を取り消しました。', self.app.var_status.get())
 
     def test_validation_status_and_tooltip_change_language(self):
@@ -330,10 +330,10 @@ class LocalizationUITests(unittest.TestCase):
         self.name()
         tip = next(t for t in self.app.translations.tooltips if t.widget is self.app.name_entry)
         tip.show(); self.app.update()
-        self.assertIn('Enter Test', tip.tip.winfo_children()[0].cget('text'))
+        self.assertIn('Enter PlayerBase', tip.tip.winfo_children()[0].cget('text'))
         self.switch('ja')
         tip.show(); self.app.update()
-        self.assertIn('Test と入力', tip.tip.winfo_children()[0].cget('text'))
+        self.assertIn('PlayerBase または APlayerBase', tip.tip.winfo_children()[0].cget('text'))
         tip.hide()
         path_tip = next(t for t in self.app.translations.tooltips if t.widget is self.app.project_entry)
         path_tip.show(); self.app.update()
@@ -422,7 +422,7 @@ class LocalizationUITests(unittest.TestCase):
         title,body=self.ask.call_args.args[:2]
         self.assertEqual('既存ファイルの変更',title)
         self.assertIn('変更しますか',body)
-        self.assertIn('ATest.h',body)
+        self.assertIn('Test.h',body)
         self.app.open_scaffold(False)
         d=next(iter(self.app._dialogs))
         d.name.set('1Bad')
