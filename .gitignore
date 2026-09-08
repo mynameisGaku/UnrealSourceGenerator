@@ -1,0 +1,71 @@
+# Local app state (normally stored outside the repository)
+.gui_settings.json
+compact-ui.json
+
+# Atomic-write leftovers and tool backups inside this repository
+.cppgen-*
+**/Saved/CppSourceGenerator/Backups/
+
+# Local diagnostics / root test output (keep docs/ verification logs)
+error.log
+startup-error.log
+/test-results.log
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+/build/
+/dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Installer output
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# Type checkers / linters
+.mypy_cache/
+.dmypy.json
+.ruff_cache/
+.pyre/
+.pytype/
+
+# IDE / editors
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+*.orig

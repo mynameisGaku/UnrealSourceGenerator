@@ -1,0 +1,54 @@
+test_01_closed_by_default_without_increasing_window (tests.test_log_ui.LogUITests.test_01_closed_by_default_without_increasing_window) ... ok
+test_02_expand_and_collapse_preserve_input_preview_and_geometry (tests.test_log_ui.LogUITests.test_02_expand_and_collapse_preserve_input_preview_and_geometry) ... ok
+test_03_restart_is_closed_even_when_previously_open (tests.test_log_ui.LogUITests.test_03_restart_is_closed_even_when_previously_open) ... ok
+test_04_source_logs_record_while_closed (tests.test_log_ui.LogUITests.test_04_source_logs_record_while_closed) ... ok
+test_05_typing_and_preview_do_not_spam_history (tests.test_log_ui.LogUITests.test_05_typing_and_preview_do_not_spam_history) ... ok
+test_06_copy_and_clear_do_not_change_files_or_undo (tests.test_log_ui.LogUITests.test_06_copy_and_clear_do_not_change_files_or_undo) ... ok
+test_07_log_messages_retranslate_engine_output_stays_raw (tests.test_log_ui.LogUITests.test_07_log_messages_retranslate_engine_output_stays_raw) ... ok
+test_08_log_readonly_and_select_all (tests.test_log_ui.LogUITests.test_08_log_readonly_and_select_all) ... ok
+test_09_scroll_up_is_not_forced_to_latest (tests.test_log_ui.LogUITests.test_09_scroll_up_is_not_forced_to_latest) ... ok
+test_10_rendered_history_trims_and_clear_new_output_is_not_duplicated (tests.test_log_ui.LogUITests.test_10_rendered_history_trims_and_clear_new_output_is_not_duplicated) ... ok
+test_11_large_hidden_log_does_not_render_until_opened (tests.test_log_ui.LogUITests.test_11_large_hidden_log_does_not_render_until_opened) ... ok
+test_12_live_process_output_arrives_while_busy (tests.test_log_ui.LogUITests.test_12_live_process_output_arrives_while_busy) ... ok
+test_13_update_failure_keeps_full_output_and_does_not_auto_open (tests.test_log_ui.LogUITests.test_13_update_failure_keeps_full_output_and_does_not_auto_open) ... ok
+test_14_timeout_is_logged_and_gui_becomes_available (tests.test_log_ui.LogUITests.test_14_timeout_is_logged_and_gui_becomes_available) ... ok
+test_15_engine_resolution_error_is_logged (tests.test_log_ui.LogUITests.test_15_engine_resolution_error_is_logged) ... ok
+test_16_write_failure_is_logged (tests.test_log_ui.LogUITests.test_16_write_failure_is_logged) ... ok
+test_17_module_plugin_and_folder_actions_logged (tests.test_log_ui.LogUITests.test_17_module_plugin_and_folder_actions_logged) ... ok
+test_18_backups_and_undo_are_logged (tests.test_log_ui.LogUITests.test_18_backups_and_undo_are_logged) ... ok
+test_19_cancelled_overwrite_does_not_claim_success (tests.test_log_ui.LogUITests.test_19_cancelled_overwrite_does_not_claim_success) ... ok
+test_20_clear_during_update_allows_future_lines (tests.test_log_ui.LogUITests.test_20_clear_during_update_allows_future_lines) ... ok
+test_21_destroy_cancels_worker_without_tk_calls (tests.test_log_ui.LogUITests.test_21_destroy_cancels_worker_without_tk_calls) ... ok
+test_22_error_and_warning_have_text_and_color_tags (tests.test_log_ui.LogUITests.test_22_error_and_warning_have_text_and_color_tags) ... ok
+test_23_append_logs_are_distinct_from_replace (tests.test_log_ui.LogUITests.test_23_append_logs_are_distinct_from_replace) ... ok
+test_24_no_duplicate_generation_logs (tests.test_log_ui.LogUITests.test_24_no_duplicate_generation_logs) ... ok
+test_25_log_controls_fit_with_status_in_both_languages (tests.test_log_ui.LogUITests.test_25_log_controls_fit_with_status_in_both_languages) ... ok
+test_26_source_to_auto_update_keeps_chronological_history (tests.test_log_ui.LogUITests.test_26_source_to_auto_update_keeps_chronological_history) ... ok
+test_27_maximized_log_toggle_does_not_overwrite_restore_geometry (tests.test_log_ui.LogUITests.test_27_maximized_log_toggle_does_not_overwrite_restore_geometry) ... ok
+test_28_long_status_cannot_push_generate_off_compact_window (tests.test_log_ui.LogUITests.test_28_long_status_cannot_push_generate_off_compact_window) ... ok
+test_add_and_context_menus_translate_and_work (tests.test_i18n.LocalizationUITests.test_add_and_context_menus_translate_and_work) ... ok
+test_all_four_layouts_round_trip_without_changing_generation (tests.test_i18n.LocalizationUITests.test_all_four_layouts_round_trip_without_changing_generation) ... ok
+test_confirmation_and_validation_dialogs_follow_language (tests.test_i18n.LocalizationUITests.test_confirmation_and_validation_dialogs_follow_language) ... ok
+test_default_visible_labels_english (tests.test_i18n.LocalizationUITests.test_default_visible_labels_english) ... ok
+test_english_and_japanese_controls_fit_compact_window (tests.test_i18n.LocalizationUITests.test_english_and_japanese_controls_fit_compact_window) ... ok
+test_file_picker_titles_follow_language (tests.test_i18n.LocalizationUITests.test_file_picker_titles_follow_language) ... ok
+test_folder_dialog_translates_and_adds_both_folders (tests.test_i18n.LocalizationUITests.test_folder_dialog_translates_and_adds_both_folders) ... ok
+test_generated_state_signature_and_undo_survive_switch (tests.test_i18n.LocalizationUITests.test_generated_state_signature_and_undo_survive_switch) ... ok
+test_language_can_be_changed_and_saved_without_project (tests.test_i18n.LocalizationUITests.test_language_can_be_changed_and_saved_without_project) ... ok
+test_language_persists_immediately (tests.test_i18n.LocalizationUITests.test_language_persists_immediately) ... ok
+test_old_settings_default_to_english_and_preserve_layout (tests.test_i18n.LocalizationUITests.test_old_settings_default_to_english_and_preserve_layout) ... ok
+test_options_dialog_retranslates_without_losing_unsaved_edits (tests.test_i18n.LocalizationUITests.test_options_dialog_retranslates_without_losing_unsaved_edits) ... ok
+test_pending_worker_messages_use_language_at_display_time (tests.test_i18n.LocalizationUITests.test_pending_worker_messages_use_language_at_display_time) ... ok
+test_preference_write_failure_does_not_crash_or_change_project (tests.test_i18n.LocalizationUITests.test_preference_write_failure_does_not_crash_or_change_project) ... ok
+test_repeated_switches_do_not_accumulate_widgets_or_callbacks (tests.test_i18n.LocalizationUITests.test_repeated_switches_do_not_accumulate_widgets_or_callbacks) ... ok
+test_scaffold_destination_survives_switch_and_project_name_collision (tests.test_i18n.LocalizationUITests.test_scaffold_destination_survives_switch_and_project_name_collision) ... ok
+test_selector_changes_all_main_captions_without_new_window (tests.test_i18n.LocalizationUITests.test_selector_changes_all_main_captions_without_new_window) ... ok
+test_switch_preserves_request_preview_selection_scroll_and_inputs (tests.test_i18n.LocalizationUITests.test_switch_preserves_request_preview_selection_scroll_and_inputs) ... ok
+test_tooltip_help_translates_but_paths_do_not (tests.test_i18n.LocalizationUITests.test_tooltip_help_translates_but_paths_do_not) ... ok
+test_unsupported_or_corrupt_saved_language_uses_english (tests.test_i18n.LocalizationUITests.test_unsupported_or_corrupt_saved_language_uses_english) ... ok
+test_validation_status_and_tooltip_change_language (tests.test_i18n.LocalizationUITests.test_validation_status_and_tooltip_change_language) ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 7.795s
+
+OK

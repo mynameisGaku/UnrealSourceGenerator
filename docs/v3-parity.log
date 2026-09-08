@@ -1,0 +1,7 @@
+PASS byte-identical to v3: internal/model.py  SHA256=9e4f03a6b161195c6690b426d27e88f4f0a2b3b10e23ce3749ef4f5bf7fa648c
+PASS byte-identical to v3: internal/templates.py  SHA256=a33b28a566b59ac49e6ef0820c141accda9b785035c7e146e8a033cd20278e67
+PASS byte-identical to v3: internal/i18n.py  SHA256=c94691b626a3305fa4b7e0ab729a0af40e3c1fb834fab330ef6263675919d08f
+PASS byte-identical to v3: internal/preferences.py  SHA256=5024264ec871efa1fa14777ebb56e736b49611f2baa3dccc1de8f10bb957c3bf
+PASS byte-identical to v3: internal/launch.py  SHA256=bc0cdaadea886e966073a4efae334d99238b4e06d8fb7dd816ac78c6325a4732
+PASS byte-identical to v3: gui.pyw  SHA256=c0bb00a8382411d3ca0f90ccd4b9ee6025a80331ac6438ea9ddfd8a847945c19
+PASS byte-identical to v3: gui.bat  SHA256=21cf4ca32108f3457d6b2cfb2a8dcfe3868e4186e5b12dd5e03df4f826e05d2d
